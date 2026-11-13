@@ -1,0 +1,13 @@
+{
+	"description": "@aihub mentions in Liferay's CKEditor 5: ask an AI Hub agent to work in parallel with the author",
+	"devDependencies": {
+		"esbuild": "0.25.10"
+	},
+	"name": "aihub-mention-ckeditor",
+	"private": true,
+	"scripts": {
+		"build": "node build.mjs"
+	},
+	"type": "module",
+	"version": "0.1.0"
+}

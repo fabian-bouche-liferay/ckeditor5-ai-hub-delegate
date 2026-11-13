@@ -1,0 +1,299 @@
+/* ---------------------------------------------------------------------------
+ * @aihub — TK-like inline requests in CKEditor 5
+ * ------------------------------------------------------------------------- */
+
+:root {
+	--aihub-ink: #1f4f8f;
+	--aihub-ink-strong: #163c6e;
+	--aihub-tint: #e3edf9;
+	--aihub-tint-strong: #cfe0f5;
+	--aihub-accent: #2f6fd6;
+	--aihub-ok: #2e8b57;
+	--aihub-error: #c0392b;
+}
+
+/* While typing "@aihub …" (draft, before Enter) */
+
+.ck-content .aihub-draft {
+	background: var(--aihub-tint);
+	border-radius: 3px;
+	box-decoration-break: clone;
+	-webkit-box-decoration-break: clone;
+	color: var(--aihub-ink);
+	padding: 1px 2px;
+}
+
+/* The request pill */
+
+.ck-content .aihub-request {
+	background: var(--aihub-tint);
+	border-radius: 3px;
+	box-decoration-break: clone;
+	-webkit-box-decoration-break: clone;
+	color: var(--aihub-ink);
+	cursor: pointer;
+	padding: 2px 4px;
+	position: relative;
+	transition: background-color 0.2s ease;
+}
+
+.ck-content .aihub-request:hover,
+.ck-content .aihub-request.ck-widget_selected {
+	background: var(--aihub-tint-strong);
+}
+
+.ck-content .aihub-request.ck-widget,
+.ck-content .aihub-request.ck-widget:hover,
+.ck-content .aihub-request.ck-widget.ck-widget_selected {
+	outline: none;
+}
+
+.ck-content .aihub-request.ck-widget_selected {
+	box-shadow: 0 0 0 2px var(--aihub-accent);
+}
+
+.ck-content .aihub-request__icon {
+	color: var(--aihub-accent);
+	display: inline-block;
+	font-size: 0.95em;
+	line-height: 1;
+	margin-left: 2px;
+	vertical-align: -0.1em;
+}
+
+.ck-content .aihub-request__icon svg {
+	display: block;
+}
+
+/* Pending: shimmer + breathing sparkle */
+
+.ck-content .aihub-request--pending {
+	animation: aihub-shimmer 1.6s linear infinite;
+	background-image: linear-gradient(
+		100deg,
+		var(--aihub-tint) 30%,
+		#f3f8fe 50%,
+		var(--aihub-tint) 70%
+	);
+	background-size: 200% 100%;
+}
+
+.ck-content .aihub-request--pending .aihub-request__icon {
+	animation: aihub-breathe 1.2s ease-in-out infinite;
+}
+
+/* Done / error badges */
+
+.ck-content .aihub-request__badge {
+	border-radius: 50%;
+	display: inline-block;
+	height: 7px;
+	margin-left: 3px;
+	vertical-align: super;
+	width: 7px;
+}
+
+.ck-content .aihub-request__badge--done {
+	animation: aihub-ping 1.4s ease-out 3;
+	background: var(--aihub-ok);
+}
+
+.ck-content .aihub-request__badge--error,
+.ck-content .aihub-request__badge--interrupted {
+	background: var(--aihub-error);
+}
+
+.ck-content .aihub-request--error,
+.ck-content .aihub-request--interrupted {
+	background: #fbeaea;
+	color: #8e2a20;
+}
+
+.ck-content .aihub-request--error .aihub-request__icon,
+.ck-content .aihub-request--interrupted .aihub-request__icon {
+	color: var(--aihub-error);
+}
+
+@keyframes aihub-shimmer {
+	from {
+		background-position: 200% 0;
+	}
+
+	to {
+		background-position: -200% 0;
+	}
+}
+
+@keyframes aihub-breathe {
+	0%,
+	100% {
+		opacity: 0.45;
+		transform: scale(0.85) rotate(0deg);
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1.15) rotate(20deg);
+	}
+}
+
+@keyframes aihub-ping {
+	0% {
+		box-shadow: 0 0 0 0 rgba(46, 139, 87, 0.6);
+	}
+
+	100% {
+		box-shadow: 0 0 0 7px rgba(46, 139, 87, 0);
+	}
+}
+
+/* Toolbar button */
+
+.aihub-toolbar-button .ck-icon {
+	color: var(--aihub-accent);
+}
+
+/* ---------------------------------------------------------------------------
+ * Result panel (contextual balloon)
+ * ------------------------------------------------------------------------- */
+
+/* The panel root carries "ck-reset_all-excluded", so CKEditor's UI reset
+   leaves its descendants alone (Clay buttons, wrapping text). The root itself
+   is still reset, hence the explicit values below. */
+
+.ck.ck-balloon-panel .aihub-panel {
+	box-sizing: border-box;
+	color: #272833;
+	display: block;
+	font-family: var(--font-family-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif);
+	font-size: 14px;
+	line-height: 1.5;
+	white-space: normal;
+	max-width: min(460px, 92vw);
+	outline: none;
+	padding: 12px 14px 10px;
+	width: 460px;
+}
+
+.aihub-panel__header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 6px;
+}
+
+.aihub-panel__brand {
+	align-items: center;
+	color: var(--aihub-accent);
+	display: inline-flex;
+	font-weight: 600;
+	gap: 6px;
+}
+
+.aihub-panel__status {
+	border-radius: 10px;
+	font-size: 12px;
+	padding: 1px 8px;
+}
+
+.aihub-panel__status--pending {
+	background: var(--aihub-tint);
+	color: var(--aihub-ink);
+}
+
+.aihub-panel__status--done {
+	background: #e3f4ea;
+	color: #1f6b41;
+}
+
+.aihub-panel__status--error,
+.aihub-panel__status--interrupted {
+	background: #fbeaea;
+	color: #8e2a20;
+}
+
+.aihub-panel__prompt {
+	border-left: 3px solid var(--aihub-tint-strong);
+	color: #6b6c7e;
+	font-style: italic;
+	margin-bottom: 10px;
+	padding-left: 8px;
+}
+
+.aihub-panel__result {
+	max-height: 280px;
+	overflow: auto;
+	padding-right: 4px;
+}
+
+.aihub-panel__result > :last-child {
+	margin-bottom: 0;
+}
+
+.aihub-panel__result p,
+.aihub-panel__result ul,
+.aihub-panel__result ol {
+	margin: 0 0 8px;
+}
+
+.aihub-panel__result ul,
+.aihub-panel__result ol {
+	padding-left: 20px;
+}
+
+.aihub-panel__loading {
+	align-items: center;
+	color: #6b6c7e;
+	display: flex;
+	gap: 10px;
+}
+
+.aihub-panel__dots {
+	display: inline-flex;
+	gap: 4px;
+}
+
+.aihub-panel__dots i {
+	animation: aihub-breathe 1.2s ease-in-out infinite;
+	background: var(--aihub-accent);
+	border-radius: 50%;
+	display: block;
+	height: 6px;
+	width: 6px;
+}
+
+.aihub-panel__dots i:nth-child(2) {
+	animation-delay: 0.2s;
+}
+
+.aihub-panel__dots i:nth-child(3) {
+	animation-delay: 0.4s;
+}
+
+.aihub-panel__error {
+	color: #8e2a20;
+}
+
+.aihub-panel__footer {
+	align-items: center;
+	border-top: 1px solid #e7e7ed;
+	display: flex;
+	gap: 8px;
+	justify-content: space-between;
+	margin-top: 10px;
+	padding-top: 8px;
+}
+
+.aihub-panel__agent {
+	color: #a7a9bc;
+	font-size: 11px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.aihub-panel__actions {
+	display: inline-flex;
+	flex-shrink: 0;
+	gap: 6px;
+}

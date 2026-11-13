@@ -1,0 +1,8 @@
+assemble:
+    -   from: build
+        into: static
+aihub-mention-ckeditor:
+    editorConfigKeys:
+    name: AI Hub Mention (CKEditor 5)
+    type: editorConfigContributor
+    url: index.js
