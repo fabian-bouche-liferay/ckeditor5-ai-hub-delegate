@@ -6,9 +6,9 @@ A Liferay client extension of type `editorConfigContributor`. It declares no `ed
 
 ## Demo
 
-<video src="docs/aihub-mention-demo.webm" controls muted width="100%"></video>
+![Demo: two @aihub requests run in parallel in CKEditor 5, then their answers are inserted](docs/aihub-mention-demo.gif)
 
-[Watch the demo (WebM, 48 s)](docs/aihub-mention-demo.webm): two `@aihub` requests run in parallel while the author keeps writing, then both answers are inserted.
+Full-quality video: [docs/aihub-mention-demo.webm](docs/aihub-mention-demo.webm) (48 s). Two `@aihub` requests run in parallel while the author keeps writing, then both answers are inserted.
 
 ## Experience
 
